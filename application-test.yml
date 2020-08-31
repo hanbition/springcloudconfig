@@ -1,0 +1,43 @@
+server:
+  port: 8005
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://www.eureka8001.com:8001/eureka
+  instance:
+    hostname: 127.0.0.1
+    #instance-id: 01-consumer-8101
+    # 设置当前Client每1秒向Server发送一次心跳，单位秒,默认30s
+    lease-renewal-interval-in-seconds: 1
+    # 指定让Server认定当前Client已经失效的时间，将来可以从注册表中剔除了，单位秒 默认 90s
+    lease-expiration-duration-in-seconds: 1
+spring:
+  application:
+    name: zuulServer-8005
+
+zuul:
+  routes:
+    # 指定微服务的路由规则
+    # *为通配符
+    # /** 可以匹配0到多级路径
+    # /* 只能匹配一级路径
+    # /? 只能匹配一级路径，且路径只能包含一个字符
+#    rout1:
+#      path: /consumer8101/**
+#      serviceId: 01-consumer-8101
+#    rout2:
+#      path: /consumer8102/**
+#      serviceId: 01-consumer-8102
+    01-consumer-8101: /consumer8101/**
+    01-consumer-8102: /consumer8102/**
+  # 屏蔽指定微服务名称
+#  ignored-services: 01-consumer-8101
+  #屏蔽所有微服务名称
+  #ignored-services: "*"
+  # 指定统一的前辍
+#  prefix: /han
+  # 屏蔽指定的URI
+#  ignored-patterns: /**/list/**
+  # 屏蔽掉指定的敏感头信息，其会将原来默认的Cookie、SetCookie、Authorization敏感头信息放开
+#  sensitive-headers: token
